@@ -1,0 +1,22 @@
+package {package_name}
+
+import (
+    "math"
+)
+
+func {method_name}(features []float64) [{n_classes}]float64 {{
+    var distribution [{n_classes}]float64
+    var boosterValues [{n_boosters}]float64
+    {method_calls}
+    for i, v := range boosterValues {{
+        distribution[int(math.Mod(float64(i), float64({n_classes})))] += v
+    }}
+	sum := 0.0
+	for _, v := range distribution {{
+		sum += math.Exp(v)
+	}}
+	for i := range distribution {{
+		distribution[i] = math.Exp(distribution[i]) / sum
+	}}
+    return distribution
+}}

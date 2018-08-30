@@ -1,0 +1,4 @@
+for i, v := range {method_name}{method_index}(features) {{
+	distribution[i] += v
+	sum += v
+}}

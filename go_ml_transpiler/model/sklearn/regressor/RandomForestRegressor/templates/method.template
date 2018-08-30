@@ -1,0 +1,8 @@
+package {package_name}
+
+
+func {method_name} (features []float64) float64 {{
+	prediction := 0.0
+	{method_calls}
+	return prediction / {n_trees}
+}}
