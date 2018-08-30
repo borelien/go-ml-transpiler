@@ -1,0 +1,5 @@
+go_ml_transpiler.egg-info
+.idea/
+
+*.pyc
+.DS_Store
