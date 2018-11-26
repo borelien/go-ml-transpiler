@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package server;
+
+option go_package = "server";
+
+message ModelInput {
+    repeated double features = 1;
+}
+
+message ModelOutput {
+    int64  label = 1;
+    double probability = 2;
+}
+
+service Model {
+    rpc Forward(ModelInput) returns (ModelOutput) {}
+}

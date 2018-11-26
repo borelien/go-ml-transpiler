@@ -1,0 +1,16 @@
+version: '3'
+
+
+version: "3"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/server/Dockerfile.server
+    ports:
+      - "8080:8080"
+    hostname: master
+  client:
+    build:
+        context: .
+        dockerfile: ./Dockerfiles/client/Dockerfile.benchmark
