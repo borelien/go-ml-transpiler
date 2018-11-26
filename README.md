@@ -2,12 +2,18 @@
 	<img width=60% height=60% src="resources/pictures/go-ml-transpiler.png" alt="go-ml-transpiler"/>
 </p>
 
-## go-ml-transpiler
 
-*go-ml-transpiler* provides methods to export trained machine learning models as Go library, for large-scale applications with real-time constraints.
+# go-ml-transpiler
+
+
+## Overview
+
+`go-ml-transpiler` provides methods to export trained machine learning models as Go library, for large-scale applications with real-time constraints.
+
+
+## Getting Started
 
 ### Supported models
-
 | Algorithm | Training language |
 | ------------- | ------------- |
 | [**xgboost.XGBClassifier**](https://xgboost.readthedocs.io/en/latest/python/python_api.html) *(Scikit-Learn API only)* | Python |
@@ -19,9 +25,8 @@
 
 
 ### Installation
-
 ```bash
-$ git clone git@github.com:znly/go-ml-transpiler.git
+$ git clone https://github.com/znly/go-ml-transpiler.git
 $ cd go-ml-transpiler
 $ pip install --user -e .
 ```
@@ -49,8 +54,15 @@ To run the tests on your machine, you will need [**go**](https://golang.org/) + 
 ```
 
 
-### Transpile model
+## Usage
 
+### Serving
+We provide a simple example of a machine learning serving service using `go-ml-transpiler`, *gRPC* and *Docker*.
+
+- [code](https://github.com/znly/go-ml-transpiler/tree/master/serving) 🤖
+- [blog](https://medium.com/p/5fece526b2ac) 🤓
+
+### Transpile model
 ```python
 from go_ml_transpiler import Transpiler
 import xgboost
@@ -93,7 +105,6 @@ transpiler.write("/tmp")
 
 
 ### Leverage *Spark*
-
 With *XGBoost* you can also train your model using *Spark* with the following few lines of code:
 ```scala
 import org.apache.spark.ml.linalg.Vector
@@ -133,7 +144,6 @@ transpiler.write($GOLANG_MODEL_DIR)
 
 
 ### Examples
-
 When transpiling *XGBoost* models, output will look like this for the **booster** files:
 ```go
 package model
@@ -175,17 +185,18 @@ Output is of type:
 - float64 for regression
 
 
-### Authors
+## Authors
 
 See [AUTHORS](./AUTHORS) for the list of contributors.
 
 
-### References
+## References
 
 [1] Gilbert Bernstein Morgan Dixon Amit Levy ["Faster Real-Time Classification Using Compilation"](https://courses.cs.washington.edu/courses/cse501/10au/compile-machlearn.pdf), 2010.
 
 
-### License ![License](https://img.shields.io/badge/license-Apache2-blue.svg?style=plastic)
+## License ![License](https://img.shields.io/badge/license-Apache2-blue.svg?style=plastic)
+
 The Apache License version 2.0 (Apache2) - see [LICENSE](./LICENSE) for more details.
 
 Copyright (c) 2018  Zenly   <hello@zen.ly> [@zenlyapp](https://twitter.com/zenlyapp)
