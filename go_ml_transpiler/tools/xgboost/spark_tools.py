@@ -30,7 +30,6 @@ def load_spark_model(model_path, metadata_path):
 
     booster = xgb.Booster()
     booster.load_model(model_path)
-    booster.get_dump()
 
     clf._Booster = booster
     return clf
