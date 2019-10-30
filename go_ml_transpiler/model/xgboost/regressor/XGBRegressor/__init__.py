@@ -18,7 +18,7 @@ class XGBRegressor(Regressor):
         super(XGBRegressor, self).__init__(model=model, indent=indent, **kwargs)
         self._sanity_check()
 
-    def transpile(self, package_name, method_name, export_method, **kwargs):
+    def transpile(self, package_name, method_name, export_method, float_type, **kwargs):
 
         low_method_name = method_name.lower()
         boosters = []
@@ -35,7 +35,12 @@ class XGBRegressor(Regressor):
                         if self.import_packages else "",
                     method_name=low_method_name,
                     method_index=i,
-                    booster=build_tree(booster, indent=self.indent, missing_condition=self.missing_condition)
+                    booster=build_tree(
+                        booster,
+                        indent=self.indent,
+                        missing_condition=self.missing_condition,
+                        float_type=float_type),
+                    float_type=float_type
                 )
             )
             booster_calls.append(
@@ -56,7 +61,8 @@ class XGBRegressor(Regressor):
             "method_name": method_name.capitalize() if export_method else method_name,
             "method_calls": "\n".join([("" if i == 0 else self.indent) + line for i, line in enumerate(booster_calls)]),
             "n_classes": 1,
-            "base_score": float(self.model.base_score)
+            "base_score": float(self.model.base_score),
+            "float_type": float_type
         }
 
         method = self.template("method.template").format(**k)

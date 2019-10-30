@@ -7,15 +7,15 @@ import (
 )
 
 
-func main() {
+func main() {{
 
-	x := make([]float64, 0)
+	x := make([]{float_type}, 0)
 
-	for _, arg := range os.Args[1:] {
-		if n, err := strconv.ParseFloat(arg, 64); err == nil {
-			x = append(x, n)
-		}
-	}
+	for _, arg := range os.Args[1:] {{
+		if n, err := strconv.ParseFloat(arg, {float_base}); err == nil {{
+			x = append(x, {float_type}(n))
+		}}
+	}}
 	prediction := Predict(x)
 	fmt.Printf("%v", prediction)
-}
+}}

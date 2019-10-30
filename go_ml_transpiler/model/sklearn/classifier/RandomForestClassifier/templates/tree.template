@@ -1,10 +1,10 @@
 package {package_name}
 
-func {method_name}{method_index}(features []float64) [{n_classes}]float64 {{
-	var predictions [{n_classes}]float64
+func {method_name}{method_index}(features []{float_type}) [{n_classes}]{float_type} {{
+	var predictions [{n_classes}]{float_type}
 	{tree}
-	var treeDistribution [{n_classes}]float64
-	sum := float64(0)
+	var treeDistribution [{n_classes}]{float_type}
+	sum := {float_type}(0)
 	for i, v := range predictions {{
 		sum += v
 		treeDistribution[i] = v

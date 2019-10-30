@@ -2,6 +2,6 @@ package {package_name}
 
 {import_packages}
 
-func {method_name}{method_index}(features []float64) float64 {{
+func {method_name}{method_index}(features []{float_type}) {float_type} {{
 {booster}
 }}

@@ -15,10 +15,10 @@ class XGBModel(Model):
 
         self.import_packages = []
         if np.isnan(self.model.missing):
-            self.missing_condition = "math.IsNaN(features[{feature_index}])"
+            self.missing_condition = "math.IsNaN(float64(features[{feature_index}]))"
             self.import_packages.append("math")
         else:
-            self.missing_condition = "features[{feature_index}]" + " == {value}".format(value=self.model.missing)
+            self.missing_condition = "features[{feature_index}]" + " == " + "{float_type}" + "({value})".format(value=self.model.missing)
 
         self._objective_error = "Unsupported objective parameter: {}".format(self.model.objective)
         self._booster_error = "Unsupported booster type: {}".format(self.model.booster)

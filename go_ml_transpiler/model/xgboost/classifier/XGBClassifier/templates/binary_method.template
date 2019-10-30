@@ -5,10 +5,10 @@ import (
 )
 
 
-func {method_name}(features []float64) [2]float64 {{
-    sum := math.Log({base_score})
+func {method_name}(features []{float_type}) [2]{float_type} {{
+    sum := {float_type}(math.Log({base_score}))
     {method_calls}
-    proba := 1.0 / (1.0 + math.Exp(sum))
-	distribution := [2]float64{{proba, 1.0 - proba}}
+    proba := {float_type}(1) / ({float_type}(1) + {float_type}(math.Exp(float64(sum))))
+	distribution := [2]{float_type}{{proba, {float_type}(1) - proba}}
     return distribution
 }}

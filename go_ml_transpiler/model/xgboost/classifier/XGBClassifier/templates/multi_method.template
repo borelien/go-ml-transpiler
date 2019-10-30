@@ -4,19 +4,19 @@ import (
     "math"
 )
 
-func {method_name}(features []float64) [{n_classes}]float64 {{
-    var distribution [{n_classes}]float64
-    var boosterValues [{n_boosters}]float64
+func {method_name}(features []{float_type}) [{n_classes}]{float_type} {{
+    var distribution [{n_classes}]{float_type}
+    var boosterValues [{n_boosters}]{float_type}
     {method_calls}
     for i, v := range boosterValues {{
         distribution[int(math.Mod(float64(i), float64({n_classes})))] += v
     }}
-	sum := 0.0
+	sum := {float_type}(0)
 	for _, v := range distribution {{
-		sum += math.Exp(v)
+		sum += {float_type}(math.Exp(float64(v)))
 	}}
 	for i := range distribution {{
-		distribution[i] = math.Exp(distribution[i]) / sum
+		distribution[i] = {float_type}(math.Exp(float64(distribution[i]))) / sum
 	}}
     return distribution
 }}

@@ -34,32 +34,38 @@ def _parse_edge(text):
     raise ValueError("Unable to parse edge: {0}.".format(text))
 
 
-def build_tree(tree, indent, missing_condition):
+def build_tree(tree, indent, missing_condition, float_type):
 
     rood_id = "0"
     root_depth = 1
 
-    def _build_tree(nodes, node_id, depth):
+    def _build_tree(nodes, node_id, depth, _float_type):
 
         tree = ""
         current_indent = indent * depth
 
         if nodes[node_id]["leaf"]:
-            tree += "\n{indent}return {value}".format(indent=current_indent, value=float(nodes[node_id]["value"]))
+            tree += "\n{indent}return {float_type}({value})".format(
+                indent=current_indent,
+                value=float(nodes[node_id]["value"]),
+                float_type=_float_type)
             return tree
         else:
             if depth > root_depth:
                 tree += "\n"
-            tree += "{indent}if (features[{feature_index}] < {threshold}) {condition_direction}({missing_condition}) {{".format(
+            tree += "{indent}if (features[{feature_index}] < {float_type}({threshold})) {condition_direction}{missing_condition} {{".format(
                 indent=current_indent,
                 feature_index=nodes[node_id]["value"]["feature"][1:],
                 threshold=nodes[node_id]["value"]["threshold"],
                 condition_direction="&& !" if nodes[node_id]["value"]["missing"] != nodes[node_id]["value"]["yes"] else "|| ",
-                missing_condition=missing_condition.format(feature_index=nodes[node_id]["value"]["feature"][1:]))
+                missing_condition=missing_condition.format(
+                    feature_index=nodes[node_id]["value"]["feature"][1:],
+                    float_type=_float_type),
+                float_type=_float_type)
 
-            tree += _build_tree(nodes, nodes[node_id]["value"]["yes"], depth + 1)
+            tree += _build_tree(nodes, nodes[node_id]["value"]["yes"], depth + 1, _float_type)
             tree += "\n{indent}}} else {{".format(indent=current_indent)
-            tree += _build_tree(nodes, nodes[node_id]["value"]["no"], depth + 1)
+            tree += _build_tree(nodes, nodes[node_id]["value"]["no"], depth + 1, _float_type)
             tree += "\n{indent}}}".format(indent=current_indent)
         return tree
 
@@ -88,4 +94,4 @@ def build_tree(tree, indent, missing_condition):
         i += 1
     if rood_id not in _nodes:
         raise ValueError('root node "{}" cannot be found.')
-    return _build_tree(nodes=_nodes, node_id=rood_id, depth=root_depth)
+    return _build_tree(nodes=_nodes, node_id=rood_id, depth=root_depth, _float_type=float_type)

@@ -29,12 +29,14 @@ class Transpiler(object):
             export_method=True,
             method_name="predict",
             indent="    ",
+            float_type="float64",
             **kwargs):
         self._local_class_instance = self._local_class(self.model, indent=indent, **kwargs)
         return self._local_class_instance.transpile(
             package_name=package_name,
             method_name=method_name,
             export_method=export_method,
+            float_type=float_type,
             **kwargs)
 
     def write(self, directory):

@@ -8,7 +8,7 @@ class RandomForestRegressor(Regressor):
     def __init__(self, model, indent, **kwargs):
         super(RandomForestRegressor, self).__init__(model=model, indent=indent, **kwargs)
 
-    def transpile(self, package_name, method_name, export_method, **kwargs):
+    def transpile(self, package_name, method_name, export_method, float_type, **kwargs):
 
         low_method_name = method_name.lower()
         trees = []
@@ -26,8 +26,10 @@ class RandomForestRegressor(Regressor):
                         thresholds=tree.tree_.threshold.tolist(),
                         values=tree.tree_.value.tolist(),
                         features=tree.tree_.feature,
-                        indent=self.indent
+                        indent=self.indent,
+                        float_type=float_type
                     ),
+                    float_type=float_type
                 )
             )
             tree_calls.append(
@@ -47,6 +49,7 @@ class RandomForestRegressor(Regressor):
             "method_name": method_name.capitalize() if export_method else method_name,
             "method_calls": "\n".join([("" if i == 0 else self.indent) + line for i, line in enumerate(tree_calls)]),
             "n_trees": len(trees),
+            "float_type": float_type
         }
 
         method = self.template("method.template").format(**k)

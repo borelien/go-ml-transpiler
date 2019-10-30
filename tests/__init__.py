@@ -29,16 +29,18 @@ class TestPrediction(object):
     tmp_directory = os.path.join(models_directory, "tmp")
     main = "./" + os.path.join(tmp_directory, "main")
 
+    # precision
+    float_base = 32
+
     def setUp(self):
         subprocess.call(["rm", "-rf", self.tmp_directory])
         subprocess.call(["mkdir", self.tmp_directory])
-        subprocess.call(
-            [
-                "cp",
-                os.path.join(self.template_directory, "predict.template"),
-                "{}.go".format(self.main)
-            ]
-        )
+        with open(os.path.join(self.template_directory, "predict.template")) as f:
+            main_template = f.read().format(
+                float_type="float{}".format(self.float_base),
+                float_base=self.float_base)
+        with open("{}.go".format(self.main), "w") as f:
+            f.write(main_template)
 
     def tearDown(self):
         subprocess.call(["rm", "-rf", self.tmp_directory])
@@ -52,7 +54,8 @@ class TestPrediction(object):
             package_name="main",
             export_method=True,
             method_name="Predict",
-            indent="    ")
+            indent="    ",
+            float_type="float{}".format(self.float_base))
         transpiler.write(directory=self.tmp_directory)
 
     def _predict(self, model):
