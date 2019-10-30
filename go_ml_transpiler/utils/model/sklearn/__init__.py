@@ -31,10 +31,10 @@ def build_tree(left_nodes, right_nodes, thresholds, values, features, indent):
         else:
             tree += "".join(
                 [
-                    "\n{indent}predictions[{class_index}] = {class__values}".format(
+                    "\n{indent}predictions[{class_index}] = {class_value}".format(
                         indent=current_indent,
                         class_index=i,
-                        class__values=rate)
+                        class_value=float(rate))
                     for i, rate in enumerate(_values[node][0])
                 ])
         return tree
